@@ -3,8 +3,7 @@
 {
    'name': 'Stock by category',
    'version': '1.0',
-   'depends': ['stock','product','account'],
-   'author': 'Luis Miguel Esteban',
+   'depends': ['stock','product','account','sale'],
    'description': 'Inventario por categoria',
    'website': 'https://www.soluziono.com',
    'data': [

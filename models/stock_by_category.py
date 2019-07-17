@@ -2,10 +2,24 @@
 from openerp import models, fields, api
 
 class product(models.Model):
-    _inherit='product.template'
+    _inherit='product.category'
 
 class stock_move(models.Model):
-    _inherit='stock.move'
+  _name='stock.move'
+  _inherit=['stock.move']
+
+class wizard_inventario(models.Model):
+  _name='wizard.inventario'
+
+  fecha = fields.Datetime('Fecha', required=True)
+  editorial = fields.Many2one('product.category', 'Editorial')
+
+  @api.multi
+  def search_editorial(self,values):
+    reg=self.env['stock.move'].search(['date','<=',self.fecha])
+    print("############# self", self)
+    print("############# values", values)
+    return reg
 
 class stock_by_category(models.Model):
   _name='stock.by.category'
@@ -14,15 +28,3 @@ class stock_by_category(models.Model):
   move_id=fields.Char('Move', size=128)
   product_id=fields.Char('Producto', size=128)
   barcode=fields.Char('Barcode', size=128)
-  product_categ = fields.Many2one('product.category', 'Categoria', ondelete='set null')
-
-  @api.multi
-  def write(self,values):
-    result=super(stock_by_category).write(values)
-    return result  
-
-
-  # @api.multi
-  # def _consul(self,values):
-  #     reg=self.env['stock.by.category'].search([('move_id','=', '1')])
-  #     return reg
